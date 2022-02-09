@@ -40,6 +40,9 @@ public class AdminServlet extends HttpServlet {
                 case "displayAllPost":
                     displayAllPost(request, response);
                     break;
+                case "displayPostById_category":
+                    displayPostById_category(request, response);
+                    break;
                 case "deletePost":
                     deletePost(request, response);
                     break;
@@ -73,6 +76,16 @@ public class AdminServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void displayPostById_category(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id_category = Integer.parseInt(request.getParameter("id"));
+        List<_ListOfPost> listOfPosts = connectionDBOf_post.selectListOfPostByIdCategory(id_category);
+        request.setAttribute("listOfPosts", listOfPosts);
+        List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+        request.setAttribute("categoryList", categoryList);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/post/view_post.jsp");
+        requestDispatcher.forward(request, response);
     }
 
     private void deletePost(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {

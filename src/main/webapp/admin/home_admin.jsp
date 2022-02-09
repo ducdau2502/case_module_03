@@ -52,11 +52,11 @@
 
                     <li class="nav-item dropdown d-sm-block d-md-none d-lg-none">
                         <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false"> Posts </a>
+                           aria-haspopup="true" aria-expanded="false">Post</a>
                         <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
-                            <a class="dropdown-item" href="#top">All posts</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=displayAllPost">All Post</a>
                             <c:forEach items="${categoryList}" var="category">
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=displayAllPost">
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=displayPostById_category&id=${category.getId_category()}">
                                     ${category.getName_category()}
                                 </a>
                             </c:forEach>
@@ -67,7 +67,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="profilemenu" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false"> Profile </a>
                         <div class="dropdown-menu" aria-labelledby="profilemenu">
-                            <a class="dropdown-item" href="#top">My Posts</a>
+<%--                            <a class="dropdown-item" href="#top">My Posts</a>--%>
                             <a class="dropdown-item" href="#top">Logout</a>
                         </div>
                     </li>
@@ -113,7 +113,7 @@
                             <span class="menu-collapsed">All Post</span>
                         </a>
                         <c:forEach items="${categoryList}" var="category">
-                            <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                            <a href="${pageContext.request.contextPath}/admin?action=displayPostById_category&id=${category.getId_category()}" class="list-group-item list-group-item-action bg-dark text-white">
                                 <span class="menu-collapsed"><c:out value="${category.getName_category()}"></c:out></span>
                             </a>
                         </c:forEach>
