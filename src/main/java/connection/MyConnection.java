@@ -8,9 +8,8 @@ public class MyConnection {
     private String jdbcURL = "jdbc:mysql://localhost:3306/case_module_03_C1021H1?useSSL=false";
     private String jdbcURL1 = "jdbc:mysql://localhost:3306/case_module_03_C1021H1?useSSL=false";
     private String jdbcUsername = "root";
-    private String jdbcUsername1 = "root";
     private String jdbcPassword = "123456";
-    private String DucDepzai = "velo";
+    private String DucDepzai = "vờ lờ cờ";
 
     public Connection getConnection() {
         Connection connection = null;
