@@ -108,6 +108,8 @@ public class AdminServlet extends HttpServlet {
     private void editGet_Category(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int id_category = Integer.parseInt(request.getParameter("id"));
         Category categoryEdit = connectionDBOf_category.selectCategory(id_category);
+        List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+        request.setAttribute("categoryList", categoryList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/edit_category.jsp");
         request.setAttribute("category", categoryEdit);
         requestDispatcher.forward(request, response);
@@ -130,6 +132,8 @@ public class AdminServlet extends HttpServlet {
     }
 
     private void createGet_Category(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+        request.setAttribute("categoryList", categoryList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/create_category.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -149,6 +153,8 @@ public class AdminServlet extends HttpServlet {
     private void displayAllUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         List<Account> accounts = connectionDBOf_account.selectAllAccount();
         request.setAttribute("accounts", accounts);
+        List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+        request.setAttribute("categoryList", categoryList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/home_admin.jsp");
         requestDispatcher.forward(request, response);
     }
