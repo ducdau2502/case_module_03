@@ -13,24 +13,8 @@ public class MyConnection {
         Connection connection = null;
         try {
             // Đổi class hiện tại về quản lý như 1 drive
-            // Đổi class hiện tại về quản lý như 1 drive
-            // Đổi class hiện tại về quản lý như 1 drive
-            // Đổi class hiện tại về quản lý như 1 drive
-            // Đổi class hiện tại về quản lý như 1 drive
-            // Đổi class hiện tại về quản lý như 1 drive
-            // Đổi class hiện tại về quản lý như 1 drive
             Class.forName("com.mysql.jdbc.Driver");
 
-            //Quản lý connection vs driver manager
-            //Quản lý connection vs driver manager
-            //Quản lý connection vs driver manager
-            //Quản lý connection vs driver manager
-            //Quản lý connection vs driver manager
-            //Quản lý connection vs driver manager
-            //Quản lý connection vs driver manager
-            //Quản lý connection vs driver manager
-            //Quản lý connection vs driver manager
-            //Quản lý connection vs driver manager
             //Quản lý connection vs driver manager
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (SQLException | ClassNotFoundException e) {
