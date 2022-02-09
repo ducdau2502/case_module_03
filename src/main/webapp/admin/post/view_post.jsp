@@ -173,47 +173,40 @@
                 <h1 class="display-4">Get High 4rum</h1>
                 <%--                <c:forEach items="" var="">--%>
                 <div class="card">
-                    <h5 class="card-header font-weight-light"> All User </h5>
+                    <h5 class="card-header font-weight-light"> All Post </h5>
                     <div class="card-body row">
                         <%--                                <c:forEach items="" var="">--%>
                         <%--                                </c:forEach>--%>
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Kind</th>
-                                <th>Status</th>
-                                <th colspan="2">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${accounts}" var="account">
+                            <table class="table table-striped">
+                                <thead>
                                 <tr>
-                                    <td>${account.getId_account()}</td>
-                                    <td>${account.getUsername()}</td>
-                                    <c:if test="${account.getRollno() == 1}">
-                                        <td>User</td>
-                                    </c:if>
-
-                                    <c:if test="${account.getRollno() == 0}">
-                                        <td>Admin</td>
-                                    </c:if>
-                                    <td>${account.getStatus()}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-danger">
-                                            <a href="${pageContext.request.contextPath}/admin?action=block&id=${account.getId_account()}">Block</a>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-danger">
-                                            <a href="${pageContext.request.contextPath}/admin?action=unblock&id=${account.getId_account()}">Unblock</a>
-                                        </button>
-                                    </td>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Content</th>
+                                    <th>Author</th>
+                                    <th>Date Created</th>
+                                    <th>Category</th>
+                                    <th colspan="2">Action</th>
                                 </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${listOfPosts}" var="post">
+                                    <tr>
+                                        <td>${post.getId_post()}</td>
+                                        <td>${post.getTitle()}</td>
+                                        <td>${post.getContent()}</td>
+                                        <td>${post.getAuthor()}</td>
+                                        <td>${post.getDate_created()}</td>
+                                        <td>${post.getCategory()}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-danger">
+                                                <a href="${pageContext.request.contextPath}/admin?action=deletePost&id=${post.getId_post()}">Delete</a>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
                     </div>
                 </div>
                 <%--                </c:forEach>--%>

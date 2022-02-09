@@ -173,47 +173,31 @@
                 <h1 class="display-4">Get High 4rum</h1>
                 <%--                <c:forEach items="" var="">--%>
                 <div class="card">
-                    <h5 class="card-header font-weight-light"> All User </h5>
+                    <h5 class="card-header font-weight-light"> Create New Category </h5>
                     <div class="card-body row">
                         <%--                                <c:forEach items="" var="">--%>
                         <%--                                </c:forEach>--%>
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Kind</th>
-                                <th>Status</th>
-                                <th colspan="2">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${accounts}" var="account">
-                                <tr>
-                                    <td>${account.getId_account()}</td>
-                                    <td>${account.getUsername()}</td>
-                                    <c:if test="${account.getRollno() == 1}">
-                                        <td>User</td>
-                                    </c:if>
-
-                                    <c:if test="${account.getRollno() == 0}">
-                                        <td>Admin</td>
-                                    </c:if>
-                                    <td>${account.getStatus()}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-danger">
-                                            <a href="${pageContext.request.contextPath}/admin?action=block&id=${account.getId_account()}">Block</a>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-danger">
-                                            <a href="${pageContext.request.contextPath}/admin?action=unblock&id=${account.getId_account()}">Unblock</a>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+                            <form action="/admin?action=createPost_Category" method="post">
+                                <table border="1" cellpadding="5">
+                                    <tr>
+                                        <th>Name Category:</th>
+                                        <td>
+                                            <input type="text" name="name_category" size="45"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Description:</th>
+                                        <td>
+                                            <input type="text" name="description" size="45"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" align="center">
+                                            <input type="submit" value="Save"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
                     </div>
                 </div>
                 <%--                </c:forEach>--%>
