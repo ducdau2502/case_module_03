@@ -91,10 +91,10 @@
                         <small>MAIN MENU</small>
                     </li>
 
-                    <a href="#" class="bg-dark list-group-item list-group-item-action">
+                    <a href="/admin" class="bg-dark list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-start align-items-center">
                             <span class="fas fa-tasks fa-fw mr-3"></span>
-                            <span class="menu-collapsed">Tasks</span>
+                            <span class="menu-collapsed">Home</span>
                         </div>
                     </a>
 
