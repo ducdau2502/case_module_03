@@ -84,6 +84,8 @@ public class AdminServlet extends HttpServlet {
     private void displayAllPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<_ListOfPost> listOfPosts = connectionDBOf_post.selectListOfPost();
         request.setAttribute("listOfPosts", listOfPosts);
+        List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+        request.setAttribute("categoryList", categoryList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/post/view_post.jsp");
         requestDispatcher.forward(request, response);
     }

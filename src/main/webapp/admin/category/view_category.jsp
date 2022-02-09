@@ -54,10 +54,12 @@
                         <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false"> Posts </a>
                         <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
-                            <a class="dropdown-item" href="#top">News</a>
-                            <a class="dropdown-item" href="#top">Culinary</a>
-                            <a class="dropdown-item" href="#top">Tourism</a>
-                            <a class="dropdown-item" href="#top">F17 Voz</a>
+                            <a class="dropdown-item" href="#top">All posts</a>
+                            <c:forEach items="${categoryList}" var="category">
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=displayAllPost">
+                                        ${category.getName_category()}
+                                </a>
+                            </c:forEach>
                         </div>
                     </li>
 
@@ -110,18 +112,11 @@
                         <a href="${pageContext.request.contextPath}/admin?action=displayAllPost" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">All Post</span>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">News</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Culinary</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Tourism</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">F17 Voz</span>
-                        </a>
+                        <c:forEach items="${categoryList}" var="category">
+                            <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                                <span class="menu-collapsed"><c:out value="${category.getName_category()}"></c:out></span>
+                            </a>
+                        </c:forEach>
                     </div>
 
                     <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
@@ -150,9 +145,6 @@
                         </div>
                     </a>
                     <div id='submenu3' class="collapse sidebar-submenu">
-                        <%--                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">--%>
-                        <%--                            <span class="menu-collapsed">My Posts</span>--%>
-                        <%--                        </a>--%>
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">Logout</span>
                         </a>
@@ -171,12 +163,9 @@
 
             <div class="col-lg-9 col-md-8">
                 <h1 class="display-4">Get High 4rum</h1>
-                <%--                <c:forEach items="" var="">--%>
                 <div class="card">
                     <h5 class="card-header font-weight-light"> All Category </h5>
                     <div class="card-body row">
-                        <%--                                <c:forEach items="" var="">--%>
-                        <%--                                </c:forEach>--%>
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -208,7 +197,6 @@
                             </table>
                     </div>
                 </div>
-                <%--                </c:forEach>--%>
 
             </div>
         </div>
