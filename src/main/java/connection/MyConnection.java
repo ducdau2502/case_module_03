@@ -21,6 +21,8 @@ public class MyConnection {
             //Quản lý connection vs driver manager
             //Quản lý connection vs driver manager
             //Quản lý connection vs driver manager
+            //Quản lý connection vs driver manager
+            //Quản lý connection vs driver manager
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
