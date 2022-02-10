@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="/assets/css/view_detail.css">
 
     <script src="/assets/js/main.js"></script>
-    <script src="//cdn.ckeditor.com/4.17.2/basic/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
 
     <title>Get High 4rum</title>
 </head>
@@ -131,9 +131,6 @@
                             <span class="menu-collapsed">My Posts</span>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">New Post</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">Logout</span>
                         </a>
                     </div>
@@ -152,61 +149,48 @@
             <div class="col-lg-9 col-md-12">
                 <h2 class="display-4">Get High 4rum</h2>
                 <div class="card" >
-                    <div class="card-header font-weight-light">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <p class="font-weight-light">Tên tác giả</p>
-                            </div>
-                            <div class="col-lg-4 text-right small">
-                                <p class="font-weight-light">ngày tạo: <span class="font-weight-light">25 Jan 2022</span> </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <h5 class="font-weight-light">Tên bài viết</h5>
-                            </div>
-                            <div class="col-lg-4 text-right small">
-                                <p class="font-weight-light">ngày tạo: <span class="font-weight-light">25 Jan 2022</span> </p>
-                            </div>
-                        </div>
-
-                    </div>
+                    <h5 class="card-header font-weight-light">New Post</h5>
                     <div class="card-body">
-                        <div class="card__post row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="card" >
-                    <h5 class="card-header font-weight-light">Comment</h5>
-                    <div class="card-body">
-
-                        <div class="card__post row">
-                            <div class="col-lg-10 col-md-8 col-sm-12">
-                                    <p class="font-weight-light">Lorem Ipsum is simply dummy text of the printing and typesetting industry  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                            </div>
-                            <div class="col-lg-2 col-md-4 col-sm-12">
-                                <span class="font-weight-light align-middle comment_username">Tác giả</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="card" >
-                    <h5 class="card-header font-weight-light">New Comment</h5>
-                    <div class="card-body">
-
                         <form action="" method="POST">
 
+                            <div class="form-group has-error">
+                                <label for="category">Category<span class="require">*</span></label>
+                                <select name="category" id="category" class="form-control" required>
+                                    <option value="News">News</option>
+                                    <option value="News">Culinary</option>
+                                    <option value="News">Tourism</option>
+                                    <option value="News">F17 Voz</option>
+                                </select>
+
+<%--                                <c:if test="${city != null}">--%>
+<%--                                    <script>--%>
+<%--                                        function myFunction() {--%>
+<%--                                            document.getElementById("category").value = "${id_country}";--%>
+<%--                                        }--%>
+<%--                                        <c:if test="${city != null}">myFunction()</c:if>--%>
+<%--                                    </script>--%>
+<%--                                </c:if>--%>
+                            </div>
+
+                            <div class="form-group" style="display: none">
+                                <label for="id_post"></label>
+                                <input type="text" id="id_post" class="form-control" name="id_post" value=""/>
+                            </div>
+
+
                             <div class="form-group">
-                                <label for="new_comment"></label>
-                                <textarea name="content" id="new_comment"></textarea>
+                                <label for="title">Title <span class="require">*</span></label>
+                                <input type="text" id="title" class="form-control" name="title" value="" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="content">Content <span class="require">*</span></label>
+                                <textarea name="content" id="content">code core tag post.getcontent()</textarea>
                                 <script>CKEDITOR.replace('content');</script>
+                            </div>
+
+                            <div class="form-group">
+                                <p><span class="require">*</span> - required fields</p>
                             </div>
 
                             <div class="form-group">
@@ -218,9 +202,9 @@
                                 </button>
                             </div>
                         </form>
-
                     </div>
                 </div>
+
 
             </div>
         </div>
