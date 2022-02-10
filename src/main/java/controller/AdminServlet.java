@@ -116,6 +116,8 @@ public class AdminServlet extends HttpServlet {
 
         Category category = new Category(id_category, name_category, description);
         connectionDBOf_category.updateCategory(category);
+        List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+        request.setAttribute("categoryList", categoryList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/edit_category.jsp");
         requestDispatcher.forward(request, response);
     }

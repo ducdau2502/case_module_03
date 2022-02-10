@@ -12,6 +12,9 @@ import java.util.List;
 
 public class ConnectionDBOf_Account implements IConnectionDB_Account {
     private static final String INSERT_ACCOUNT_SQL = "insert into account (username, password, phone_number, email, address) value (?, ?, ?, ?, ?);";
+    private static final String UPDATE_ACCOUNT_SQL = "update account set password = ?, phone_number = ?, email = ?, address = ? where id_account = ?;";
+    private static final String DELETE_ACCOUNT_SQL = "delete from account where id_account = ?;";
+    private static final String SELECT_ACCOUNT_BY_ID = "select * from account where id_account = ?";
     private static final String SELECT_ALL_ACCOUNT = "select * from account";
     private static final String BLOCK_ACCOUNT_SQL = "update account set status = 0 where id_account = ?;";
     private static final String UNBLOCK_ACCOUNT_SQL = "update account set status = 1 where id_account = ?;";
@@ -59,6 +62,44 @@ public class ConnectionDBOf_Account implements IConnectionDB_Account {
             e.printStackTrace();
         }
         return accountList;
+    }
+
+    @Override
+    public Account selectAccount(int id) {
+        Account account = null;
+        try (Connection connection = myConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ACCOUNT_BY_ID)) {
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String phoneNumber = rs.getString("phone_number");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                account = new Account(id, username, password, phoneNumber, email, address);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+
+    @Override
+    public boolean updateAccount(Account account) throws SQLException {
+        boolean rowUpdated;
+        try (Connection connection = myConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_ACCOUNT_SQL)) {
+            statement.setString(1, account.getPassword());
+            statement.setString(2, account.getPhoneNumber());
+            statement.setString(3, account.getEmail());
+            statement.setString(4, account.getAddress());
+            statement.setInt(5, account.getId_account());
+
+            rowUpdated = statement.executeUpdate() > 0;
+        }
+        return rowUpdated;
     }
 
     @Override
