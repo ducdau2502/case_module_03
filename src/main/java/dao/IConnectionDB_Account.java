@@ -19,4 +19,8 @@ public interface IConnectionDB_Account {
     public boolean blockAccount(int id) throws SQLException;
 
     public boolean unblockAccount(int id) throws SQLException;
+
+    public Account checkLogin(String username, String password);
+
+    Account getAccountById(int id);
 }
