@@ -23,6 +23,7 @@
 
     <link rel="stylesheet" href="/assets/css/header_footer.css">
     <link rel="stylesheet" href="/assets/css/view_home.css">
+    <link rel="stylesheet" href="/assets/css/base.css">
 
     <script src="/assets/js/main.js"></script>
     <title>Get High 4rum</title>
@@ -44,21 +45,31 @@
             <div class="collapse navbar-collapse" id="navbarAdmin">
                 <ul class="navbar-nav ml-auto">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#top">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#top">Login</a>
-                    </li>
+                    <c:if test="${account == null}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login?action=registerGet">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login?action=loginGet">Login</a>
+                        </li>
+                    </c:if>
+
+                    <c:if test="${account != null}">
+                        <li class="nav-item">
+                            <span class="nav-link"><c:out value="${account.getUsername()}"></c:out></span>
+                        </li>
+                    </c:if>
 
                     <li class="nav-item dropdown d-sm-block d-md-block d-lg-none">
                         <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false"> Posts </a>
                         <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
-                            <a class="dropdown-item" href="#top">News</a>
-                            <a class="dropdown-item" href="#top">Culinary</a>
-                            <a class="dropdown-item" href="#top">Tourism</a>
-                            <a class="dropdown-item" href="#top">F17 Voz</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=displayAllPost<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">All posts</a>
+                            <c:forEach items="${categoryList}" var="category">
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=displayPostById_category&id=${category.getId_category()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">
+                                        ${category.getName_category()}
+                                </a>
+                            </c:forEach>
                         </div>
                     </li>
 
@@ -66,8 +77,9 @@
                         <a class="nav-link dropdown-toggle" href="#" id="profilemenu" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false"> Profile </a>
                         <div class="dropdown-menu" aria-labelledby="profilemenu">
+<%--                            thiếu mypost--%>
                             <a class="dropdown-item" href="#top">My Posts</a>
-                            <a class="dropdown-item" href="#top">Logout</a>
+                            <a class="dropdown-item" href="/login?action=logout">Logout</a>
                         </div>
                     </li>
 
@@ -92,6 +104,13 @@
                         <small>MAIN MENU</small>
                     </li>
 
+                    <a href="${pageContext.request.contextPath}/user<c:if test="${account != null}">?account_id=${requestScope['account'].getId_account()}</c:if>" class="bg-dark list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <span class="fas fa-tasks fa-fw mr-3"></span>
+                            <span class="menu-collapsed">Home</span>
+                        </div>
+                    </a>
+
                     <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justyfy-content-start align-items-center">
@@ -101,20 +120,18 @@
                         </div>
                     </a>
                     <div id="submenu1" class="collapse sidebar-submenu">
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">News</span>
+<%--                        goi đến user--%>
+                        <a href="${pageContext.request.contextPath}/admin?action=displayAllPost<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="menu-collapsed">All Post</span>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Culinary</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Tourism</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">F17 Voz</span>
-                        </a>
+    <%--                        goi đến user--%>
+    <c:forEach items="${categoryList}" var="category">
+                            <a href="${pageContext.request.contextPath}/admin?action=displayPostById_category&id=${category.getId_category()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>" class="list-group-item list-group-item-action bg-dark text-white">
+                                <span class="menu-collapsed"><c:out value="${category.getName_category()}"></c:out></span>
+                            </a>
+                        </c:forEach>
                     </div>
-
+<c:if test="${account != null}">
                     <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-start align-items-center">
@@ -124,17 +141,19 @@
                         </div>
                     </a>
                     <div id='submenu2' class="collapse sidebar-submenu">
+<%--                        thiếu--%>
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">My Posts</span>
                         </a>
+    <%--                        thiếu--%>
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">New Post</span>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="/login?action=logout" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">Logout</span>
                         </a>
                     </div>
-
+</c:if>
                     <div class="bg-dark list-group-item d-flex w-100 justify-content-start align-items-center">
                         <span class="search__icon fas fa-search fa-fw mr-3"></span>
 
@@ -150,7 +169,7 @@
                 <h2 class="display-4">Get High 4rum</h2>
                 <%--                <c:forEach items="" var="">--%>
                 <div class="card" >
-                    <h5 class="card-header font-weight-light"> Tên biến category </h5>
+                    <h5 class="card-header font-weight-light smooth-scroll" id="abcdef"> Tên biến category </h5>
                     <div class="card-body">
                         <%--                                <c:forEach items="" var="">--%>
                             <div class="card__post row">
@@ -184,5 +203,31 @@
 </div>
 
 </body>
+<c:if test="${messLogin1 != null}">
+    <div class="modal fade" id="dialog1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
 
+                <div class="modal-header">
+                    <h5 class="modal-title">${messLogin1}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                        ${messLogin2}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#dialog1').modal('show');
+    </script>
+</c:if>
 </html>
