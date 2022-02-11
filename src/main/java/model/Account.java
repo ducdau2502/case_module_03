@@ -29,6 +29,15 @@ public class Account {
         this.address = address;
     }
 
+    public Account(int id_account, String username, String password, String phoneNumber, String email, String address) {
+        this.id_account = id_account;
+        this.username = username;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+    }
+
     public int getId_account() {
         return id_account;
     }
