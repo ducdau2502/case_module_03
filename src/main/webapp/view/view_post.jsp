@@ -23,11 +23,9 @@
 
     <link rel="stylesheet" href="/assets/css/header_footer.css">
     <link rel="stylesheet" href="/assets/css/view_home.css">
-    <link rel="stylesheet" href="/assets/css/view_detail.css">
+    <link rel="stylesheet" href="/assets/css/base.css">
 
     <script src="/assets/js/main.js"></script>
-    <script src="//cdn.ckeditor.com/4.17.2/basic/ckeditor.js"></script>
-
     <title>Get High 4rum</title>
 </head>
 <body>
@@ -135,76 +133,41 @@
 
             <div class="col-lg-9 col-md-12">
                 <h2 class="display-4">Get High 4rum</h2>
-                <div class="card" >
-                    <div class="card-header font-weight-light">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <p class="font-weight-light">Author: <span class="font-weight-light">${post.getAuthor()}</span></p>
-                            </div>
-                            <div class="col-lg-4 text-right small">
-                                <p class="font-weight-light">Date Created: <span class="font-weight-light">${post.getDate_created()}</span> </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <h5 class="font-weight-light">Title: <span class="font-weight-light">${post.getTitle()}</span></h5>
-                            </div>
-                            <div class="col-lg-4 text-right small">
-                                <p class="font-weight-light">Category: <span class="font-weight-light">${post.getCategory()}</span> </p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="card-body">
-                        <div class="card__post row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <p>${post.getContent()}</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="card" >
-                    <h5 class="card-header font-weight-light">Comment</h5>
-                    <div class="card-body">
-
-                        <div class="card__post row">
-                            <div class="col-lg-10 col-md-8 col-sm-12">
-                                    <p class="font-weight-light">Lorem Ipsum is simply dummy text of the printing and typesetting industry  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                            </div>
-                            <div class="col-lg-2 col-md-4 col-sm-12">
-                                <span class="font-weight-light align-middle comment_username">Tác giả</span>
-                            </div>
-                        </div>
-
+                <div class="card">
+                    <h5 class="card-header font-weight-light"> All Post </h5>
+                    <div class="card-body row">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Date Create</th>
+                                <th colspan="2">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${postOfList}" var="post">
+                                <tr>
+                                    <td>${post.getId_post()}</td>
+                                    <td><a class="title__post" href="/user?action=detailPost&id=${post.getId_post()}">${post.getTitle()}</a></td>
+                                    <td>${post.getDate_created()}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger">
+                                            <a href="${pageContext.request.contextPath}/user?action=editGet_Post&id=${post.getId_post()}">Edit</a>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger">
+                                            <a href="${pageContext.request.contextPath}/user?action=deletePost&id=${post.getId_post()}">Delete</a>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                <div class="card" >
-                    <h5 class="card-header font-weight-light">New Comment</h5>
-                    <div class="card-body">
-
-                        <form action="" method="POST">
-
-                            <div class="form-group">
-                                <label for="new_comment"></label>
-                                <textarea name="content" id="new_comment"></textarea>
-                                <script>CKEDITOR.replace('content');</script>
-                            </div>
-
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">
-                                    Create
-                                </button>
-                                <button class="btn btn-default">
-                                    Cancel
-                                </button>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
 
             </div>
         </div>

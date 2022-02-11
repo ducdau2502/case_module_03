@@ -13,7 +13,6 @@ import java.util.List;
 public class ConnectionDBOf_Account implements IConnectionDB_Account {
     private static final String INSERT_ACCOUNT_SQL = "insert into account (username, password, phone_number, email, address) value (?, ?, ?, ?, ?);";
     private static final String UPDATE_ACCOUNT_SQL = "update account set password = ?, phone_number = ?, email = ?, address = ? where id_account = ?;";
-    private static final String DELETE_ACCOUNT_SQL = "delete from account where id_account = ?;";
     private static final String SELECT_ACCOUNT_BY_ID = "select * from account where id_account = ?";
     private static final String SELECT_ALL_ACCOUNT = "select * from account";
     private static final String BLOCK_ACCOUNT_SQL = "update account set status = 0 where id_account = ?;";

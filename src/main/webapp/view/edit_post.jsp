@@ -95,28 +95,12 @@
                         <small>MAIN MENU</small>
                     </li>
 
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
-                       class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justyfy-content-start align-items-center">
-                            <span class="far fa-newspaper mr-3"></span>
-                            <span class="menu-collapsed">Post</span>
-                            <span class="fas fa-angle-down ml-auto"></span>
+                    <a href="/user" class="bg-dark list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <span class="fas fa-tasks fa-fw mr-3"></span>
+                            <span class="menu-collapsed">Home</span>
                         </div>
                     </a>
-                    <div id="submenu1" class="collapse sidebar-submenu">
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">News</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Culinary</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Tourism</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">F17 Voz</span>
-                        </a>
-                    </div>
 
                     <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
@@ -138,9 +122,9 @@
                     <div class="bg-dark list-group-item d-flex w-100 justify-content-start align-items-center">
                         <span class="search__icon fas fa-search fa-fw mr-3"></span>
 
-                        <form class="d-flex">
-                            <button class="btn btn-light mr-lg-3 mr-md-2" type="button" href="">Search</button>
-                            <input class="form-control" type="text" placeholder="Search">
+                        <form action="/user?action=searchPostByTitleOrCategory" method="post" class="d-flex">
+                            <button class="btn btn-light mr-lg-3 mr-md-2" type="submit" >Search</button>
+                            <input class="form-control" name="search" type="text" placeholder="Search">
                         </form>
                     </div>
                 </ul>
@@ -151,25 +135,24 @@
                 <div class="card" >
                     <h5 class="card-header font-weight-light">New Post</h5>
                     <div class="card-body">
-                        <form action="" method="POST">
+                        <form action="/user?action=editPost_Post&id=${post.getId_post()}" method="POST">
 
                             <div class="form-group has-error">
-                                <label for="category">Category<span class="require">*</span></label>
-                                <select name="category" id="category" class="form-control" required>
-                                    <option value="News">News</option>
-                                    <option value="News">Culinary</option>
-                                    <option value="News">Tourism</option>
-                                    <option value="News">F17 Voz</option>
+                                <label for="category">Category <span class="require">*</span></label>
+                                <select name="categoryList" id="category" class="form-control" required>
+                                    <c:forEach items="${categoryList}" var="category">
+                                        <option value="${category.getId_category()}">${category.getName_category()}</option>
+                                    </c:forEach>
                                 </select>
 
-<%--                                <c:if test="${city != null}">--%>
-<%--                                    <script>--%>
-<%--                                        function myFunction() {--%>
-<%--                                            document.getElementById("category").value = "${id_country}";--%>
-<%--                                        }--%>
-<%--                                        <c:if test="${city != null}">myFunction()</c:if>--%>
-<%--                                    </script>--%>
-<%--                                </c:if>--%>
+                                <c:if test="${post != null}">
+                                    <script>
+                                        function myFunction() {
+                                            document.getElementById("category").value = "${id_category}";
+                                        }
+                                        <c:if test="${post != null}">myFunction()</c:if>
+                                    </script>
+                                </c:if>
                             </div>
 
                             <div class="form-group" style="display: none">
@@ -180,12 +163,12 @@
 
                             <div class="form-group">
                                 <label for="title">Title <span class="require">*</span></label>
-                                <input type="text" id="title" class="form-control" name="title" value="" />
+                                <input type="text" id="title" class="form-control" name="title" value="${post.getTitle()}" />
                             </div>
 
                             <div class="form-group">
                                 <label for="content">Content <span class="require">*</span></label>
-                                <textarea name="content" id="content">code core tag post.getcontent()</textarea>
+                                <textarea name="content" id="content">${post.getContent()}</textarea>
                                 <script>CKEDITOR.replace('content');</script>
                             </div>
 
@@ -195,7 +178,7 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">
-                                    Create
+                                    Edit
                                 </button>
                                 <button class="btn btn-default">
                                     Cancel

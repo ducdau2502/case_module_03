@@ -69,7 +69,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="profilemenu" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false"> Profile </a>
                         <div class="dropdown-menu" aria-labelledby="profilemenu">
-                            <a class="dropdown-item" href="#top">My Posts</a>
+                            <a class="dropdown-item" href="/user?action=displayPostById_Account">My Posts</a>
                             <a class="dropdown-item" href="#top">Logout</a>
                         </div>
                     </li>
@@ -95,28 +95,12 @@
                         <small>MAIN MENU</small>
                     </li>
 
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
-                       class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justyfy-content-start align-items-center">
-                            <span class="far fa-newspaper mr-3"></span>
-                            <span class="menu-collapsed">Post</span>
-                            <span class="fas fa-angle-down ml-auto"></span>
+                    <a href="/user" class="bg-dark list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <span class="fas fa-tasks fa-fw mr-3"></span>
+                            <span class="menu-collapsed">Home</span>
                         </div>
                     </a>
-                    <div id="submenu1" class="collapse sidebar-submenu">
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">News</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Culinary</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Tourism</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">F17 Voz</span>
-                        </a>
-                    </div>
 
                     <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
@@ -127,7 +111,7 @@
                         </div>
                     </a>
                     <div id='submenu2' class="collapse sidebar-submenu">
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="/user?action=displayPostById_Account" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">My Posts</span>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
@@ -138,9 +122,9 @@
                     <div class="bg-dark list-group-item d-flex w-100 justify-content-start align-items-center">
                         <span class="search__icon fas fa-search fa-fw mr-3"></span>
 
-                        <form class="d-flex">
-                            <button class="btn btn-light mr-lg-3 mr-md-2" type="button" href="">Search</button>
-                            <input class="form-control" type="text" placeholder="Search">
+                        <form action="/user?action=searchPostByTitleOrCategory" method="post" class="d-flex">
+                            <button class="btn btn-light mr-lg-3 mr-md-2" type="submit" >Search</button>
+                            <input class="form-control" name="search" type="text" placeholder="Search">
                         </form>
                     </div>
                 </ul>
@@ -148,18 +132,17 @@
 
             <div class="col-lg-9 col-md-12">
                 <h2 class="display-4">Get High 4rum</h2>
-                <div class="card" >
+                <div class="card">
                     <h5 class="card-header font-weight-light">New Post</h5>
                     <div class="card-body">
-                        <form action="" method="POST">
+                        <form action="/user?action=createPost_Post" method="POST">
 
                             <div class="form-group has-error">
                                 <label for="category">Category <span class="require">*</span></label>
-                                <select name="category" id="category" class="form-control" required>
-                                    <option value="News">News</option>
-                                    <option value="News">Culinary</option>
-                                    <option value="News">Tourism</option>
-                                    <option value="News">F17 Voz</option>
+                                <select name="categoryList" id="category" class="form-control" required>
+                                    <c:forEach items="${categoryList}" var="category">
+                                        <option value="${category.getId_category()}">${category.getName_category()}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
 
@@ -172,10 +155,6 @@
                                 <label for="content">Content <span class="require">*</span></label>
                                 <textarea name="content" id="content" required></textarea>
                                 <script>CKEDITOR.replace('content');</script>
-                            </div>
-
-                            <div class="form-group">
-                                <p><span class="require">*</span> - required fields</p>
                             </div>
 
                             <div class="form-group">

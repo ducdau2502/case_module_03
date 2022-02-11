@@ -13,6 +13,12 @@ public class Comment {
         this.id_post = id_post;
     }
 
+    public Comment(String content, int id_account, int id_post) {
+        this.content = content;
+        this.id_account = id_account;
+        this.id_post = id_post;
+    }
+
     public int getId_comment() {
         return id_comment;
     }

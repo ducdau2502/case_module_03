@@ -1,17 +1,32 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Post {
     private int id_post;
     private String title;
     private String content;
-    private Date date_created;
+    private LocalDate date_created;
     private int id_account;
     private int id_category;
 
-    public Post(int id_post, String title, String content, Date date_created, int id_account, int id_category) {
+    public Post(int id_post, String title, String content, LocalDate date_created, int id_account, int id_category) {
         this.id_post = id_post;
+        this.title = title;
+        this.content = content;
+        this.date_created = date_created;
+        this.id_account = id_account;
+        this.id_category = id_category;
+    }
+
+    public Post(int id_post, String title, String content, int id_category) {
+        this.id_post = id_post;
+        this.title = title;
+        this.content = content;
+        this.id_category = id_category;
+    }
+
+    public Post(String title, String content, LocalDate date_created, int id_account, int id_category) {
         this.title = title;
         this.content = content;
         this.date_created = date_created;
@@ -43,11 +58,11 @@ public class Post {
         this.content = content;
     }
 
-    public Date getDate_created() {
+    public LocalDate getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Date date_created) {
+    public void setDate_created(LocalDate date_created) {
         this.date_created = date_created;
     }
 

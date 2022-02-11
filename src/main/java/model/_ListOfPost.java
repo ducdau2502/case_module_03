@@ -1,16 +1,16 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class _ListOfPost {
     private int id_post;
     private String title;
     private String content;
     private String author;
-    private Date date_created;
+    private LocalDate date_created;
     private String category;
 
-    public _ListOfPost(int id_post, String title, String content, String author, Date date_created, String category) {
+    public _ListOfPost(int id_post, String title, String content, String author, LocalDate date_created, String category) {
         this.id_post = id_post;
         this.title = title;
         this.content = content;
@@ -35,7 +35,7 @@ public class _ListOfPost {
         return author;
     }
 
-    public Date getDate_created() {
+    public LocalDate getDate_created() {
         return date_created;
     }
 

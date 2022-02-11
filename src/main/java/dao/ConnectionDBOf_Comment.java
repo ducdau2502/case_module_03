@@ -72,7 +72,7 @@ public class ConnectionDBOf_Comment implements IConnectionDB_Comment {
     public boolean deleteComment(int id) throws SQLException {
         boolean rowDeleted;
         try (Connection connection = myConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_COMMENT_SQL)) {
+             PreparedStatement statement = connection.prepareStatement(DELETE_COMMENT_SQL)) {
             statement.setInt(1, id);
 
             rowDeleted = statement.executeUpdate() > 0;
