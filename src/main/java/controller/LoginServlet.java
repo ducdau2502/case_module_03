@@ -29,6 +29,9 @@ public class LoginServlet extends HttpServlet {
 
     protected void action(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        if (action == null) {
+            action = "logout";
+        }
         try {
             switch (action) {
                 case "loginGet":

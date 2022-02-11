@@ -95,28 +95,12 @@
                         <small>MAIN MENU</small>
                     </li>
 
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
-                       class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justyfy-content-start align-items-center">
-                            <span class="far fa-newspaper mr-3"></span>
-                            <span class="menu-collapsed">Post</span>
-                            <span class="fas fa-angle-down ml-auto"></span>
+                    <a href="/user" class="bg-dark list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <span class="fas fa-tasks fa-fw mr-3"></span>
+                            <span class="menu-collapsed">Home</span>
                         </div>
                     </a>
-                    <div id="submenu1" class="collapse sidebar-submenu">
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">News</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Culinary</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Tourism</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">F17 Voz</span>
-                        </a>
-                    </div>
 
                     <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
@@ -127,10 +111,10 @@
                         </div>
                     </a>
                     <div id='submenu2' class="collapse sidebar-submenu">
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="/user?action=displayPostById_Account" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">My Posts</span>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="/user?action=createGet_Post" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">New Post</span>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
@@ -141,9 +125,9 @@
                     <div class="bg-dark list-group-item d-flex w-100 justify-content-start align-items-center">
                         <span class="search__icon fas fa-search fa-fw mr-3"></span>
 
-                        <form class="d-flex">
-                            <button class="btn btn-light mr-lg-3 mr-md-2" type="button" href="">Search</button>
-                            <input class="form-control" type="text" placeholder="Search">
+                        <form action="/user?action=searchPostByTitleOrCategory" method="post" class="d-flex">
+                            <button class="btn btn-light mr-lg-3 mr-md-2" type="submit" >Search</button>
+                            <input class="form-control" name="search" type="text" placeholder="Search">
                         </form>
                     </div>
                 </ul>
@@ -155,18 +139,18 @@
                     <div class="card-header font-weight-light">
                         <div class="row">
                             <div class="col-lg-8">
-                                <p class="font-weight-light">Tên tác giả</p>
+                                <p class="font-weight-light">Author: <span class="font-weight-light">${post.getAuthor()}</span></p>
                             </div>
                             <div class="col-lg-4 text-right small">
-                                <p class="font-weight-light">ngày tạo: <span class="font-weight-light">25 Jan 2022</span> </p>
+                                <p class="font-weight-light">Date Created: <span class="font-weight-light">${post.getDate_created()}</span> </p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-8">
-                                <h5 class="font-weight-light">Tên bài viết</h5>
+                                <h5 class="font-weight-light">Title: <span class="font-weight-light">${post.getTitle()}</span></h5>
                             </div>
                             <div class="col-lg-4 text-right small">
-                                <p class="font-weight-light">ngày tạo: <span class="font-weight-light">25 Jan 2022</span> </p>
+                                <p class="font-weight-light">Category: <span class="font-weight-light">${post.getCategory()}</span> </p>
                             </div>
                         </div>
 
@@ -174,7 +158,6 @@
                     <div class="card-body">
                         <div class="card__post row">
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
                                 <p>${post.getContent()}</p>
                             </div>
                         </div>
