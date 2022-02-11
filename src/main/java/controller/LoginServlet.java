@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
     private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Account account = connectionDBOf_account.logout();
         request.setAttribute("account", account);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/home_view.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/user");
         requestDispatcher.forward(request, response);
     }
 
@@ -126,7 +126,7 @@ public class LoginServlet extends HttpServlet {
                     request.setAttribute("messLogin1", messLogin1);
                     String messLogin2 = "Enjoy my 4rum";
                     request.setAttribute("messLogin2", messLogin2);
-                    requestDispatcher = request.getRequestDispatcher("/view/home_view.jsp");
+                    requestDispatcher = request.getRequestDispatcher("/user");
                 } else if (account.getRollno() == 0) {
                     String messLogin1 = "Login Successful!!!";
                     request.setAttribute("messLogin1", messLogin1);

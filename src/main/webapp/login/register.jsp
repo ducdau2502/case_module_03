@@ -113,7 +113,7 @@
                             </div>
 
                         </form>
-                        <form action="/view/home_view.jsp" method="post">
+                        <form action="/user" method="post">
                             <div class="form-group">
                             <input type="submit" name="btn" value="Back to home" class="mr-4 btn btn-primary float-right">
                         </div>
