@@ -1,13 +1,7 @@
 package controller;
 
-import dao.ConnectionDBOf_Account;
-import dao.ConnectionDBOf_Category;
-import dao.ConnectionDBOf_Comment;
-import dao.ConnectionDBOf_Post;
-import model.Account;
-import model.Category;
-import model.Post;
-import model._ListOfPost;
+import dao.*;
+import model.*;
 import regex.Validate;
 
 import javax.servlet.*;
@@ -27,6 +21,7 @@ public class UserServlet extends HttpServlet {
     ConnectionDBOf_Category connectionDBOf_category = new ConnectionDBOf_Category();
     ConnectionDBOf_Post connectionDBOf_post = new ConnectionDBOf_Post();
     ConnectionDBOf_Comment connectionDBOf_comment = new ConnectionDBOf_Comment();
+    ConnectionDBOf_Like connectionDBOf_like = new ConnectionDBOf_Like();
     Validate validate = new Validate();
 
     @Override
@@ -73,12 +68,43 @@ public class UserServlet extends HttpServlet {
                 case "createComment_Post":
                     createComment_Post(request, response);
                     break;
+                case "likePost":
+                    like_Post(request, response);
+                    break;
                 default:
                     displayAllPost(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void like_Post(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        int id_post = Integer.parseInt(request.getParameter("id"));
+        _ListOfPost post = connectionDBOf_post.selectPost(id_post);
+        request.setAttribute("post", post);
+        Account account = null;
+        if (checkAccount(request) != null) {
+            account = checkAccount(request);
+            request.setAttribute("account", account);
+        }
+
+        if (connectionDBOf_like.checkExistingLike(id_post, account.getId_account())) {
+            Like like = new Like(id_post, account.getId_account());
+            connectionDBOf_like.insertLike(like);
+        } else {
+            Like like = connectionDBOf_like.selectLikeById_Post(id_post, account.getId_account());
+            connectionDBOf_like.updateLike(like);
+        }
+
+        Like like = connectionDBOf_like.selectLikeById_Post(id_post, account.getId_account());
+        request.setAttribute("like", like);
+        int quantity_like = connectionDBOf_like.countLikeById_Post(id_post);
+        request.setAttribute("quantity_like", quantity_like);
+        List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+        request.setAttribute("categoryList", categoryList);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/view_detail.jsp");
+        requestDispatcher.forward(request, response);
     }
 
     private void createComment_Post(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
@@ -196,9 +222,15 @@ public class UserServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         _ListOfPost post = connectionDBOf_post.selectPost(id);
         request.setAttribute("post", post);
+        Account account = null;
         if (checkAccount(request) != null) {
-            request.setAttribute("account", checkAccount(request));
+            account = checkAccount(request);
+            request.setAttribute("account", account);
+            Like like = connectionDBOf_like.selectLikeById_Post(id, account.getId_account());
+            request.setAttribute("like", like);
         }
+        int quantity_like = connectionDBOf_like.countLikeById_Post(id);
+        request.setAttribute("quantity_like", quantity_like);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/view_detail.jsp");
         requestDispatcher.forward(request, response);
     }

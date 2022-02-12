@@ -127,7 +127,8 @@
                                class="list-group-item list-group-item-action bg-dark text-white">
                                 <span class="menu-collapsed">New Post</span>
                             </a>
-                            <a href="/login?action=logout" class="list-group-item list-group-item-action bg-dark text-white">
+                            <a href="/login?action=logout"
+                               class="list-group-item list-group-item-action bg-dark text-white">
                                 <span class="menu-collapsed">Logout</span>
                             </a>
                         </div>
@@ -136,7 +137,8 @@
                     <div class="bg-dark list-group-item d-flex w-100 justify-content-start align-items-center">
                         <span class="search__icon fas fa-search fa-fw mr-3"></span>
 
-                        <form action="/user?action=searchPostByTitleOrCategory<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>" method="post" class="d-flex">
+                        <form action="/user?action=searchPostByTitleOrCategory<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>"
+                              method="post" class="d-flex">
                             <button class="btn btn-light mr-lg-3 mr-md-2" type="submit">Search</button>
                             <input class="form-control" name="search" type="text" placeholder="Search">
                         </form>
@@ -177,6 +179,22 @@
                             </div>
                         </div>
 
+                    </div>
+                    <div class="card-header font-weight-light">
+                        <div class="card__post row">
+                            <form action="/user?action=likePost&id=${post.getId_post()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>"
+                                  method="post" class="d-flex">
+                                <button
+                                        <c:if test="${account == null}">disabled</c:if>
+                                        class="btn btn-light mr-lg-3 mr-md-2" type="submit">Like
+                                </button>
+                            </form>
+                            <div class="d-flex justify-content-start align-items-center">
+                                <span class="far fa-thumbs-up mr-2"
+                                      <c:if test="${like.isStatus() == true}">style="color: blue" </c:if>></span>
+                                <span>${quantity_like}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
