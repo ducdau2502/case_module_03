@@ -82,13 +82,6 @@
                         </li>
                     </c:if>
 
-                    <li class="nav-item dropdown d-sm-block d-md-none d-lg-none">
-                        <form class="nav-link d-flex">
-                            <input class="form-control mr-2" type="text" placeholder="Search">
-                            <button class="btn btn-light ml-2" type="button" href="">Search</button>
-                        </form>
-                    </li>
-
                 </ul>
             </div>
         </div>
@@ -162,14 +155,6 @@
                         </div>
                     </c:if>
 
-                    <div class="bg-dark list-group-item d-flex w-100 justify-content-start align-items-center">
-                        <span class="search__icon fas fa-search fa-fw mr-3"></span>
-
-                        <form class="d-flex">
-                            <button class="btn btn-light mr-lg-3 mr-md-2" type="button" href="#">Search</button>
-                            <input class="form-control" type="text" placeholder="Search">
-                        </form>
-                    </div>
                 </ul>
             </div>
 
