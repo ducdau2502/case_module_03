@@ -175,7 +175,7 @@
                 </ul>
             </div>
 
-            <div class="col-lg-9 col-md-12">
+            <div class="col-lg-9 offset-lg-3 col-md-12">
                 <h2 class="display-4">Get High 4rum</h2>
                 <c:forEach items="${categoryList}" var="category">
                     <div class="card">
@@ -185,14 +185,14 @@
                             <c:forEach items="${listOfPosts}" var="post">
                                 <c:if test="${post.getCategory() == category.getName_category()}">
                                     <div class="card__post row">
-                                        <div class="col-lg-8 col-md-8 col-sm-12">
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
                                             <h5>
                                                 <a class="title__post"
                                                    href="/user?action=detailPost&id=${post.getId_post()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">${post.getTitle()}</a>
                                             </h5>
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12">${post.getAuthor()}</div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12">${post.getDate_created()}</div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12">${post.getAuthor()}</div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12">${post.getDate_created()}</div>
                                     </div>
                                 </c:if>
                             </c:forEach>

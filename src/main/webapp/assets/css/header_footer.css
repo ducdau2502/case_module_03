@@ -7,6 +7,18 @@
     color: #fff;
 }
 
+.navbar {
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    z-index: 1;
+    top: 0;
+}
+body {
+    position: relative;
+    top: 60px;
+}
+
 #body-row {
     margin-left: 0;
 }
@@ -15,6 +27,7 @@
     min-height: 100vh;
     background-color: #333;
     padding: 0;
+    position: fixed;
 }
 
 .sidebar-expanded {

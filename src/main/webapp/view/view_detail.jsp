@@ -146,7 +146,7 @@
                 </ul>
             </div>
 
-            <div class="col-lg-9 col-md-12">
+            <div class="col-lg-9 offset-lg-3 col-md-12">
                 <h2 class="display-4">Get High 4rum</h2>
                 <div class="card">
                     <div class="card-header font-weight-light">
