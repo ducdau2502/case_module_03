@@ -4,10 +4,7 @@ import dao.ConnectionDBOf_Account;
 import dao.ConnectionDBOf_Category;
 import dao.ConnectionDBOf_Comment;
 import dao.ConnectionDBOf_Post;
-import model.Account;
-import model.Category;
-import model.Post;
-import model._ListOfPost;
+import model.*;
 import regex.Validate;
 
 import javax.servlet.*;
@@ -83,7 +80,11 @@ public class UserServlet extends HttpServlet {
 
     private void createComment_Post(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         String content = request.getParameter("content");
-
+        int id_post = Integer.parseInt(request.getParameter("id"));
+        int id_account = Integer.parseInt(request.getParameter("account_id"));
+        Comment comment = new Comment(content, id_account, id_post);
+        connectionDBOf_comment.insertComment(comment);
+        displayDetailPost(request, response);
     }
 
     private void searchPostByTitleOrCategory(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -199,6 +200,10 @@ public class UserServlet extends HttpServlet {
         if (checkAccount(request) != null) {
             request.setAttribute("account", checkAccount(request));
         }
+        List<Comment> commentListById_post = connectionDBOf_comment.selectAllCommentById_post(id);
+        request.setAttribute("commentListById_post", commentListById_post);
+        List<Account> accountList = connectionDBOf_account.selectAllAccount();
+        request.setAttribute("accountList", accountList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/view_detail.jsp");
         requestDispatcher.forward(request, response);
     }

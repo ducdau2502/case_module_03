@@ -14,7 +14,7 @@ public class ConnectionDBOf_Comment implements IConnectionDB_Comment {
     private static final String INSERT_COMMENT_SQL = "insert into comment (content, id_account, id_post) value (?, ?, ?);";
     private static final String UPDATE_COMMENT_SQL = "update comment set content = ? where id_comment = ?;";
     private static final String DELETE_COMMENT_SQL = "delete from comment where id_comment = ?;";
-    private static final String SELECT_ALL_COMMENT = "select * from comment";
+    private static final String SELECT_ALL_COMMENT_BY_ID_POST = "select * from comment where id_post = ? order by id_comment desc";
     private static final String SELECT_COMMENT_BY_ID = "select * from comment where id_comment = ?";
 
     public ConnectionDBOf_Comment() {
@@ -81,18 +81,18 @@ public class ConnectionDBOf_Comment implements IConnectionDB_Comment {
     }
 
     @Override
-    public List<Comment> selectAllComment() {
+    public List<Comment> selectAllCommentById_post(int id) {
         List<Comment> commentList = new ArrayList<>();
         try (Connection connection = myConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_COMMENT)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_COMMENT_BY_ID_POST)) {
+            preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
                 int id_comment = rs.getInt("id_comment");
                 String content = rs.getString("content");
                 int id_account = rs.getInt("id_account");
-                int id_post = rs.getInt("id_post");
-                commentList.add(new Comment(id_comment, content, id_account, id_post));
+                commentList.add(new Comment(id_comment, content, id_account, id));
             }
         } catch (SQLException e) {
             e.printStackTrace();

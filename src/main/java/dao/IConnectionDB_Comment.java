@@ -14,5 +14,5 @@ public interface IConnectionDB_Comment {
 
     public boolean deleteComment(int id) throws SQLException;
 
-    public List<Comment> selectAllComment();
+    public List<Comment> selectAllCommentById_post(int id);
 }

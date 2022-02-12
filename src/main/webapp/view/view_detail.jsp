@@ -127,7 +127,8 @@
                                class="list-group-item list-group-item-action bg-dark text-white">
                                 <span class="menu-collapsed">New Post</span>
                             </a>
-                            <a href="/login?action=logout" class="list-group-item list-group-item-action bg-dark text-white">
+                            <a href="/login?action=logout"
+                               class="list-group-item list-group-item-action bg-dark text-white">
                                 <span class="menu-collapsed">Logout</span>
                             </a>
                         </div>
@@ -136,7 +137,8 @@
                     <div class="bg-dark list-group-item d-flex w-100 justify-content-start align-items-center">
                         <span class="search__icon fas fa-search fa-fw mr-3"></span>
 
-                        <form action="/user?action=searchPostByTitleOrCategory<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>" method="post" class="d-flex">
+                        <form action="/user?action=searchPostByTitleOrCategory<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>"
+                              method="post" class="d-flex">
                             <button class="btn btn-light mr-lg-3 mr-md-2" type="submit">Search</button>
                             <input class="form-control" name="search" type="text" placeholder="Search">
                         </form>
@@ -184,47 +186,50 @@
                     <h5 class="card-header font-weight-light">Comment</h5>
                     <div class="card-body">
 
-                        <div class="card__post row">
-                            <div class="col-lg-10 col-md-8 col-sm-12">
-                                <p class="font-weight-light">Lorem Ipsum is simply dummy text of the printing and
-                                    typesetting industry Lorem Ipsum has been the industry's standard dummy text ever
-                                    since the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                    make a type specimen book. It has survived not only five centuries, but also the
-                                    leap into electronic typesetting, remaining essentially unchanged.</p>
+                        <c:forEach items="${commentListById_post}" var="comment">
+                            <div class="card__post row">
+                                <div class="col-lg-10 col-md-8 col-sm-12">
+                                        ${comment.getContent()}
+                                </div>
+                                <c:forEach items="${accountList}" var="account">
+                                    <c:if test="${comment.getId_account() == account.getId_account()}">
+                                        <div class="col-lg-2 col-md-4 col-sm-12">Author:
+                                            <span class="font-weight-light align-middle comment_username">
+                                                    ${account.getUsername()}
+                                            </span>
+                                        </div>
+                                    </c:if>
+                                </c:forEach>
                             </div>
-                            <div class="col-lg-2 col-md-4 col-sm-12">
-                                <span class="font-weight-light align-middle comment_username">Tác giả</span>
-                            </div>
+                        </c:forEach>
+
+                    </div>
+                </div>
+
+                <c:if test="${account != null}">
+                    <div class="card">
+                        <h5 class="card-header font-weight-light">New Comment</h5>
+                        <div class="card-body">
+
+                            <form action="/user?action=createComment_Post&id=${post.getId_post()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>"
+                                  method="POST">
+
+                                <div class="form-group">
+                                    <label for="new_comment"></label>
+                                    <textarea name="content" id="new_comment"></textarea>
+                                    <script>CKEDITOR.replace('content');</script>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">
+                                        Create
+                                    </button>
+                                </div>
+                            </form>
+
                         </div>
-
                     </div>
-                </div>
-
-                <div class="card">
-                    <h5 class="card-header font-weight-light">New Comment</h5>
-                    <div class="card-body">
-
-                        <form action="" method="POST">
-
-                            <div class="form-group">
-                                <label for="new_comment"></label>
-                                <textarea name="content" id="new_comment"></textarea>
-                                <script>CKEDITOR.replace('content');</script>
-                            </div>
-
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">
-                                    Create
-                                </button>
-                                <button class="btn btn-default">
-                                    Cancel
-                                </button>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-
+                </c:if>
             </div>
         </div>
 
