@@ -103,6 +103,10 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("quantity_like", quantity_like);
         List<Category> categoryList = connectionDBOf_category.selectAllCategory();
         request.setAttribute("categoryList", categoryList);
+        List<Comment> commentListById_post = connectionDBOf_comment.selectAllCommentById_post(id_post);
+        request.setAttribute("commentListById_post", commentListById_post);
+        List<Account> accountList = connectionDBOf_account.selectAllAccount();
+        request.setAttribute("accountList", accountList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/view_detail.jsp");
         requestDispatcher.forward(request, response);
     }
