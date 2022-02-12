@@ -185,7 +185,7 @@
                             <c:forEach items="${listOfPosts}" var="post">
                                 <c:if test="${post.getCategory() == category.getName_category()}">
                                     <div class="card__post row">
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="col-lg-8 col-md-8 col-sm-12">
                                             <h5>
                                                 <a class="title__post"
                                                    href="/user?action=detailPost&id=${post.getId_post()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">${post.getTitle()}</a>
@@ -193,10 +193,6 @@
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-12">${post.getAuthor()}</div>
                                         <div class="col-lg-2 col-md-2 col-sm-12">${post.getDate_created()}</div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12">
-                                            <span class="far fa-thumbs-up"></span>
-                                            <span>666</span>
-                                        </div>
                                     </div>
                                 </c:if>
                             </c:forEach>
