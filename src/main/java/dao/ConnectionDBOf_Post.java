@@ -20,12 +20,12 @@ public class ConnectionDBOf_Post implements IConnectionDB_Post {
             "inner join account on post.id_account = account.id_account\n" +
             "inner join category on post.id_category = category.id_category\n" +
             "where account.status = 1\n" +
-            "order by id_post;";
+            "order by date_create desc;";
     private static final String SELECT_LIST_OF_POST_BY_ID_CATEGORY = "select id_post, title, content, username, date_create, name_category from post\n" +
             "inner join account on post.id_account = account.id_account\n" +
             "inner join category on post.id_category = category.id_category\n" +
             "where account.status = 1 and category.id_category = ?\n" +
-            "order by id_post;";
+            "order by date_create desc;";
     private static final String UPDATE_POST_SQL = "update post set title = ?, content = ?, id_category = ? where id_post = ?;";
     private static final String DELETE_POST_SQL = "delete from post where id_post = ?;";
     private static final String SELECT_ALL_POST = "select * from post";

@@ -4,6 +4,7 @@ import dao.ConnectionDBOf_Account;
 import dao.ConnectionDBOf_Category;
 import dao.ConnectionDBOf_Comment;
 import dao.ConnectionDBOf_Post;
+import model.Account;
 import model.Category;
 import model.Post;
 import model._ListOfPost;
@@ -97,6 +98,9 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("listOfPosts", postListByTitleOrCategory);
         List<Category> categoryList = connectionDBOf_category.selectAllCategory();
         request.setAttribute("categoryList", categoryList);
+        if (checkAccount(request) != null) {
+            request.setAttribute("account", checkAccount(request));
+        }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/home_view.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -104,6 +108,9 @@ public class UserServlet extends HttpServlet {
     private void deletePost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         int id_post = Integer.parseInt(request.getParameter("id"));
         connectionDBOf_post.deletePost(id_post);
+        if (checkAccount(request) != null) {
+            request.setAttribute("account", checkAccount(request));
+        }
         displayPostById_Account(request, response);
     }
 
@@ -114,6 +121,9 @@ public class UserServlet extends HttpServlet {
         int id_category = Integer.parseInt(request.getParameter("categoryList"));
         Post post = new Post(id_post, title, content, id_category);
         connectionDBOf_post.updatePost(post);
+        if (checkAccount(request) != null) {
+            request.setAttribute("account", checkAccount(request));
+        }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/edit_post.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -131,6 +141,9 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("categoryList", categoryList);
         request.setAttribute("post", post);
         request.setAttribute("id_category", id_category);
+        if (checkAccount(request) != null) {
+            request.setAttribute("account", checkAccount(request));
+        }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/edit_post.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -138,8 +151,13 @@ public class UserServlet extends HttpServlet {
     private void displayPostById_Account(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<_ListOfPost> postLists = connectionDBOf_post.selectListOfPost();
         List<_ListOfPost> postListById_Account = new ArrayList<>();
+        Account account = null;
+        if (checkAccount(request) != null) {
+            account = checkAccount(request);
+            request.setAttribute("account", account);
+        }
         for (_ListOfPost post : postLists) {
-            if (post.getAuthor().equals("kjrjku001")) {
+            if (post.getAuthor().equals(account.getUsername())) {
                 postListById_Account.add(post);
             }
         }
@@ -153,8 +171,12 @@ public class UserServlet extends HttpServlet {
         String content = request.getParameter("content");
         LocalDate date_created = LocalDate.now();
         int id_category = Integer.parseInt(request.getParameter("categoryList"));
-        int id_account = 3;
-        Post post = new Post(title, content, date_created, id_account, id_category);
+        Account account = null;
+        if (checkAccount(request) != null) {
+            account = checkAccount(request);
+            request.setAttribute("account", account);
+        }
+        Post post = new Post(title, content, date_created, account.getId_account(), id_category);
         connectionDBOf_post.insertPost(post);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/create_post.jsp");
         requestDispatcher.forward(request, response);
@@ -163,6 +185,9 @@ public class UserServlet extends HttpServlet {
     private void createGet_Post(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Category> categoryList = connectionDBOf_category.selectAllCategory();
         request.setAttribute("categoryList", categoryList);
+        if (checkAccount(request) != null) {
+            request.setAttribute("account", checkAccount(request));
+        }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/create_post.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -171,6 +196,9 @@ public class UserServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         _ListOfPost post = connectionDBOf_post.selectPost(id);
         request.setAttribute("post", post);
+        if (checkAccount(request) != null) {
+            request.setAttribute("account", checkAccount(request));
+        }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/view_detail.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -180,7 +208,18 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("listOfPosts", listOfPosts);
         List<Category> categoryList = connectionDBOf_category.selectAllCategory();
         request.setAttribute("categoryList", categoryList);
+        if (checkAccount(request) != null) {
+            request.setAttribute("account", checkAccount(request));
+        }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/home_view.jsp");
         requestDispatcher.forward(request, response);
+    }
+
+    private Account checkAccount(HttpServletRequest request) {
+        if ((request.getParameter("account_id")) != null) {
+            int id = Integer.parseInt(request.getParameter("account_id"));
+            return connectionDBOf_account.getAccountById(id);
+        }
+        return null;
     }
 }

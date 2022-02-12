@@ -47,37 +47,57 @@
             <div class="collapse navbar-collapse" id="navbarAdmin">
                 <ul class="navbar-nav ml-auto">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#top">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#top">Login</a>
-                    </li>
+                    <c:if test="${account == null}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login?action=registerGet">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login?action=loginGet">Login</a>
+                        </li>
+                    </c:if>
+
+                    <c:if test="${account != null}">
+                        <li class="nav-item">
+                            <span class="nav-link"><c:out value="${account.getUsername()}"></c:out></span>
+                        </li>
+                    </c:if>
 
                     <li class="nav-item dropdown d-sm-block d-md-block d-lg-none">
                         <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false"> Posts </a>
                         <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
-                            <a class="dropdown-item" href="#top">News</a>
-                            <a class="dropdown-item" href="#top">Culinary</a>
-                            <a class="dropdown-item" href="#top">Tourism</a>
-                            <a class="dropdown-item" href="#top">F17 Voz</a>
+                            <c:forEach items="${categoryList}" var="category">
+                                <a class="dropdown-item"
+                                   href="#${category.getName_category()}">
+                                        ${category.getName_category()}
+                                </a>
+                            </c:forEach>
                         </div>
                     </li>
 
-                    <li class="nav-item dropdown d-sm-block d-md-block d-lg-none">
-                        <a class="nav-link dropdown-toggle" href="#" id="profilemenu" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false"> Profile </a>
-                        <div class="dropdown-menu" aria-labelledby="profilemenu">
-                            <a class="dropdown-item" href="/user?action=displayPostById_Account">My Posts</a>
-                            <a class="dropdown-item" href="#top">Logout</a>
-                        </div>
-                    </li>
+                    <c:if test="${account != null}">
+                        <li class="nav-item dropdown d-sm-block d-md-block d-lg-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="profilemenu" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false"> Profile </a>
+                            <div class="dropdown-menu" aria-labelledby="profilemenu">
+                                <a class="dropdown-item"
+                                   href="/user?action=displayPostById_Account<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">My
+                                    Posts</a>
+                                <a class="dropdown-item"
+                                   href="/user?action=createGet_Post<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">My
+                                    Posts</a>
+                                <a class="dropdown-item" href="/login?action=logout">Logout</a>
+                            </div>
+                        </li>
+                    </c:if>
 
                     <li class="nav-item dropdown d-sm-block d-md-block d-lg-none">
                         <form class="nav-link d-flex">
                             <input class="form-control mr-2" type="text" placeholder="Search">
-                            <button class="btn btn-light ml-2" type="button" href="">Search</button>
+                            <button class="btn btn-light ml-2" type="button"
+                                    href="/user?action=searchPostByTitleOrCategory<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">
+                                Search
+                            </button>
                         </form>
                     </li>
 
@@ -95,35 +115,44 @@
                         <small>MAIN MENU</small>
                     </li>
 
-                    <a href="/user" class="bg-dark list-group-item list-group-item-action">
+                    <a href="/user<c:if test="${account != null}">?account_id=${requestScope['account'].getId_account()}</c:if>"
+                       class="bg-dark list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-start align-items-center">
                             <span class="fas fa-tasks fa-fw mr-3"></span>
                             <span class="menu-collapsed">Home</span>
                         </div>
                     </a>
 
-                    <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
-                       class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class="fas fa-user fa-fw mr-3"></span>
-                            <span class="menu-collapsed">Profile</span>
-                            <span class="fas fa-angle-down ml-auto"></span>
+                    <c:if test="${account != null}">
+                        <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
+                           class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-start align-items-center">
+                                <span class="fas fa-user fa-fw mr-3"></span>
+                                <span class="menu-collapsed">Profile</span>
+                                <span class="fas fa-angle-down ml-auto"></span>
+                            </div>
+                        </a>
+                        <div id='submenu2' class="collapse sidebar-submenu">
+                            <a href="/user?action=displayPostById_Account<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>"
+                               class="list-group-item list-group-item-action bg-dark text-white">
+                                <span class="menu-collapsed">My Posts</span>
+                            </a>
+                            <a href="/user?action=createGet_Post<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>"
+                               class="list-group-item list-group-item-action bg-dark text-white">
+                                <span class="menu-collapsed">New Post</span>
+                            </a>
+                            <a href="/login?action=logout"
+                               class="list-group-item list-group-item-action bg-dark text-white">
+                                <span class="menu-collapsed">Logout</span>
+                            </a>
                         </div>
-                    </a>
-                    <div id='submenu2' class="collapse sidebar-submenu">
-                        <a href="/user?action=displayPostById_Account" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">My Posts</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Logout</span>
-                        </a>
-                    </div>
+                    </c:if>
 
                     <div class="bg-dark list-group-item d-flex w-100 justify-content-start align-items-center">
                         <span class="search__icon fas fa-search fa-fw mr-3"></span>
 
-                        <form action="/user?action=searchPostByTitleOrCategory" method="post" class="d-flex">
-                            <button class="btn btn-light mr-lg-3 mr-md-2" type="submit" >Search</button>
+                        <form action="/user?action=searchPostByTitleOrCategory<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>" method="post" class="d-flex">
+                            <button class="btn btn-light mr-lg-3 mr-md-2" type="submit">Search</button>
                             <input class="form-control" name="search" type="text" placeholder="Search">
                         </form>
                     </div>
@@ -135,7 +164,7 @@
                 <div class="card">
                     <h5 class="card-header font-weight-light">New Post</h5>
                     <div class="card-body">
-                        <form action="/user?action=createPost_Post" method="POST">
+                        <form action="/user?action=createPost_Post<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>" method="POST">
 
                             <div class="form-group has-error">
                                 <label for="category">Category <span class="require">*</span></label>
