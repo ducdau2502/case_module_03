@@ -9,7 +9,7 @@ import java.util.List;
 public interface IConnectionDB_Post {
     public void insertPost(Post post) throws SQLException;
 
-    public _ListOfPost selectPost(int id);
+    public _ListOfPost selectPostById(int id);
 
     public boolean updatePost(Post post) throws SQLException;
 

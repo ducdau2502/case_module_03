@@ -9,6 +9,17 @@ public class _ListOfPost {
     private String author;
     private LocalDate date_created;
     private String category;
+    private boolean post_status;
+
+    public _ListOfPost(int id_post, String title, String content, String author, LocalDate date_created, String category, boolean post_status) {
+        this.id_post = id_post;
+        this.title = title;
+        this.content = content;
+        this.author = author;
+        this.date_created = date_created;
+        this.category = category;
+        this.post_status = post_status;
+    }
 
     public _ListOfPost(int id_post, String title, String content, String author, LocalDate date_created, String category) {
         this.id_post = id_post;
@@ -41,5 +52,13 @@ public class _ListOfPost {
 
     public String getCategory() {
         return category;
+    }
+
+    public boolean isPost_status() {
+        return post_status;
+    }
+
+    public void setPost_status(boolean post_status) {
+        this.post_status = post_status;
     }
 }

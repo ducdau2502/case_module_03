@@ -11,33 +11,55 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ConnectionDBOf_Post implements IConnectionDB_Post {
     private static final String INSERT_POST_SQL = "insert into post (title, content, date_create, id_account, id_category) value (?, ?, ?, ?, ?);";
-    private static final String SELECT_ALL_LIST_OF_POST = "select id_post, title, content, username, date_create, name_category from post\n" +
+    private static final String SELECT_ALL_LIST_OF_POST_WHERE_ID_TRUE = "select id_post, title, content, username, date_create, name_category, post.status from post\n" +
             "inner join account on post.id_account = account.id_account\n" +
             "inner join category on post.id_category = category.id_category\n" +
-            "where account.status = 1\n" +
+            "where post.status = true \n" +
+            "order by id_post desc;";
+    private static final String SELECT_ALL_LIST_OF_POST = "select id_post, title, content, username, date_create, name_category, post.status from post\n" +
+            "inner join account on post.id_account = account.id_account\n" +
+            "inner join category on post.id_category = category.id_category\n" +
+            "order by id_post desc;";
+    private static final String SELECT_ALL_LIST_OF_POST_BY_ID_ACCOUNT = "select id_post, title, content, username, date_create, name_category, post.status from post\n" +
+            "inner join account on post.id_account = account.id_account\n" +
+            "inner join category on post.id_category = category.id_category\n" +
+            "where account.id_account = ? \n" +
             "order by id_post desc;";
     private static final String SELECT_LIST_OF_POST_BY_ID_CATEGORY = "select id_post, title, content, username, date_create, name_category from post\n" +
             "inner join account on post.id_account = account.id_account\n" +
             "inner join category on post.id_category = category.id_category\n" +
-            "where account.status = 1 and category.id_category = ?\n" +
+            "where post.status = true and category.id_category = ?\n" +
             "order by id_post desc;";
     private static final String UPDATE_POST_SQL = "update post set title = ?, content = ?, id_category = ? where id_post = ?;";
     private static final String DELETE_POST_SQL = "delete from post where id_post = ?;";
     private static final String SELECT_ALL_POST = "select * from post";
-    private static final String SELECT_POST_BY_ID = "select id_post, title, content, username, date_create, name_category from post\n" +
+    private static final String SELECT_POST_BY_ID = "select post.id_post, post.title, post.content, account.username, post.date_create, category.name_category, post.status from post\n" +
             "inner join account on post.id_account = account.id_account\n" +
             "inner join category on post.id_category = category.id_category\n" +
-            "where account.status = 1 and id_post = ?";
+            "where id_post = ?";
+    private static final String CHANGE_STATUS_SQL = "update post set status = ? where id_post = ?;";
 
     public ConnectionDBOf_Post() {
     }
 
     private final MyConnection myConnection = new MyConnection();
+
+    public boolean changeStatus(_ListOfPost post) throws SQLException {
+        boolean rowUpdated;
+        try (Connection connection = myConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(CHANGE_STATUS_SQL)) {
+            boolean post_flag = post.isPost_status();
+            statement.setBoolean(1, !post_flag);
+            statement.setInt(2, post.getId_post());
+
+            rowUpdated = statement.executeUpdate() > 0;
+        }
+        return rowUpdated;
+    }
 
     public List<_ListOfPost> selectListOfPostByIdCategory(int id_category) {
         List<_ListOfPost> listOfPosts = new ArrayList<>();
@@ -65,6 +87,29 @@ public class ConnectionDBOf_Post implements IConnectionDB_Post {
     public List<_ListOfPost> selectListOfPost() {
         List<_ListOfPost> listOfPosts = new ArrayList<>();
         try (Connection connection = myConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_LIST_OF_POST_WHERE_ID_TRUE)) {
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id_post");
+                String title = rs.getString("title");
+                String content = rs.getString("content");
+                String author = rs.getString("username");
+                LocalDate date_created = LocalDate.parse(rs.getString("date_create"),
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String category = rs.getString("name_category");
+                boolean status = rs.getBoolean("status");
+                listOfPosts.add(new _ListOfPost(id, title, content, author, date_created, category, status));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfPosts;
+    }
+
+    public List<_ListOfPost> selectListOfPostForChangeStatus() {
+        List<_ListOfPost> listOfPosts = new ArrayList<>();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_LIST_OF_POST)) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
@@ -76,7 +121,32 @@ public class ConnectionDBOf_Post implements IConnectionDB_Post {
                 LocalDate date_created = LocalDate.parse(rs.getString("date_create"),
                         DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 String category = rs.getString("name_category");
-                listOfPosts.add(new _ListOfPost(id, title, content, author, date_created, category));
+                boolean status = rs.getBoolean("status");
+                listOfPosts.add(new _ListOfPost(id, title, content, author, date_created, category, status));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfPosts;
+    }
+
+    public List<_ListOfPost> selectListOfPostByIdAccount(int id_account) {
+        List<_ListOfPost> listOfPosts = new ArrayList<>();
+        try (Connection connection = myConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_LIST_OF_POST_BY_ID_ACCOUNT)) {
+            System.out.println(preparedStatement);
+            preparedStatement.setInt(1, id_account);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id_post");
+                String title = rs.getString("title");
+                String content = rs.getString("content");
+                String author = rs.getString("username");
+                LocalDate date_created = LocalDate.parse(rs.getString("date_create"),
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String category = rs.getString("name_category");
+                boolean status = rs.getBoolean("status");
+                listOfPosts.add(new _ListOfPost(id, title, content, author, date_created, category, status));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,7 +170,7 @@ public class ConnectionDBOf_Post implements IConnectionDB_Post {
     }
 
     @Override
-    public _ListOfPost selectPost(int id) {
+    public _ListOfPost selectPostById(int id) {
         _ListOfPost post = null;
         try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_POST_BY_ID)) {
@@ -115,7 +185,8 @@ public class ConnectionDBOf_Post implements IConnectionDB_Post {
                 LocalDate date_create = LocalDate.parse(rs.getString("date_create"),
                         DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 String name_category = rs.getString("name_category");
-                post = new _ListOfPost(id, title, content, username, date_create, name_category);
+                boolean post_status = rs.getBoolean("status");
+                post = new _ListOfPost(id, title, content, username, date_create, name_category, post_status);
             }
         } catch (SQLException e) {
             e.printStackTrace();

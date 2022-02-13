@@ -9,6 +9,21 @@ public class Post {
     private LocalDate date_created;
     private int id_account;
     private int id_category;
+    private boolean post_status;
+
+    public Post(int id_post, String title, String content, LocalDate date_created, int id_account, int id_category, boolean post_status) {
+        this.id_post = id_post;
+        this.title = title;
+        this.content = content;
+        this.date_created = date_created;
+        this.id_account = id_account;
+        this.id_category = id_category;
+        this.post_status = post_status;
+    }
+
+    public Post(boolean post_status) {
+        this.post_status = post_status;
+    }
 
     public Post(int id_post, String title, String content, LocalDate date_created, int id_account, int id_category) {
         this.id_post = id_post;
@@ -80,5 +95,13 @@ public class Post {
 
     public void setId_category(int id_category) {
         this.id_category = id_category;
+    }
+
+    public boolean isPost_status() {
+        return post_status;
+    }
+
+    public void setPost_status(boolean post_status) {
+        this.post_status = post_status;
     }
 }

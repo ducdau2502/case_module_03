@@ -172,7 +172,7 @@
                                     <th>Author</th>
                                     <th>Date Created</th>
                                     <th>Category</th>
-                                    <th colspan="2">Action</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -186,7 +186,12 @@
                                         <td>${post.getCategory()}</td>
                                         <td>
                                             <button type="button" class="btn btn-outline-danger">
-                                                <a href="${pageContext.request.contextPath}/admin?action=deletePost&id=${post.getId_post()}&account_id=${requestScope['account'].getId_account()}">Delete</a>
+                                                <c:if test="${post.isPost_status() == true}">
+                                                <a href="${pageContext.request.contextPath}/admin?action=deletePost&id=${post.getId_post()}&account_id=${requestScope['account'].getId_account()}">Block</a>
+                                                </c:if>
+                                                <c:if test="${post.isPost_status() != true}">
+                                                    <a href="${pageContext.request.contextPath}/admin?action=deletePost&id=${post.getId_post()}&account_id=${requestScope['account'].getId_account()}">UnBlock</a>
+                                                </c:if>
                                             </button>
                                         </td>
                                     </tr>

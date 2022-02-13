@@ -181,9 +181,15 @@
                                             <a href="${pageContext.request.contextPath}/user?action=editGet_Post&id=${post.getId_post()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">Edit</a>
                                         </button>
                                     </td>
+
                                     <td>
                                         <button type="button" class="btn btn-outline-danger">
-                                            <a href="${pageContext.request.contextPath}/user?action=deletePost&id=${post.getId_post()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">Delete</a>
+                                            <c:if test="${post.isPost_status() == true}">
+                                                <a href="${pageContext.request.contextPath}/user?action=deletePost&id=${post.getId_post()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">Block</a>
+                                            </c:if>
+                                            <c:if test="${post.isPost_status() != true}">
+                                                <a href="${pageContext.request.contextPath}/user?action=deletePost&id=${post.getId_post()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">UnBlock</a>
+                                            </c:if>
                                         </button>
                                     </td>
                                 </tr>

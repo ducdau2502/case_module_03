@@ -94,13 +94,14 @@ public class AdminServlet extends HttpServlet {
 
     private void deletePost(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int idDelete = Integer.parseInt(request.getParameter("id"));
-        connectionDBOf_post.deletePost(idDelete);
+        _ListOfPost post = connectionDBOf_post.selectPostById(idDelete);
+        connectionDBOf_post.changeStatus(post);
 
         displayAllPost(request, response);
     }
 
     private void displayAllPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<_ListOfPost> listOfPosts = connectionDBOf_post.selectListOfPost();
+        List<_ListOfPost> listOfPosts = connectionDBOf_post.selectListOfPostForChangeStatus();
         request.setAttribute("listOfPosts", listOfPosts);
         List<Category> categoryList = connectionDBOf_category.selectAllCategory();
         request.setAttribute("categoryList", categoryList);
@@ -112,9 +113,24 @@ public class AdminServlet extends HttpServlet {
     }
 
     private void deleteCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        int idDelete = Integer.parseInt(request.getParameter("id"));
-        connectionDBOf_category.deleteCategory(idDelete);
-        displayAllCategory(request, response);
+        try {
+            int idDelete = Integer.parseInt(request.getParameter("id"));
+            connectionDBOf_category.deleteCategory(idDelete);
+            displayAllCategory(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String messLogin1 = "Delete Failed";
+            request.setAttribute("messLogin1", messLogin1);
+            String messLogin2 = "This category can not be deteled";
+            request.setAttribute("messLogin2", messLogin2);
+            List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+            request.setAttribute("categoryList", categoryList);
+            if (checkAccount(request) != null) {
+                request.setAttribute("account", checkAccount(request));
+            }
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/view_category.jsp");
+            requestDispatcher.forward(request, response);
+        }
     }
 
     private void editPost_Category(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {

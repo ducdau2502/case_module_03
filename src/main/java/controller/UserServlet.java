@@ -10,9 +10,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @WebServlet(name = "UserServlet", urlPatterns = "/user")
@@ -81,7 +79,7 @@ public class UserServlet extends HttpServlet {
 
     private void like_Post(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         int id_post = Integer.parseInt(request.getParameter("id"));
-        _ListOfPost post = connectionDBOf_post.selectPost(id_post);
+        _ListOfPost post = connectionDBOf_post.selectPostById(id_post);
         request.setAttribute("post", post);
         Account account = null;
         if (checkAccount(request) != null) {
@@ -141,7 +139,8 @@ public class UserServlet extends HttpServlet {
 
     private void deletePost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         int id_post = Integer.parseInt(request.getParameter("id"));
-        connectionDBOf_post.deletePost(id_post);
+        _ListOfPost post = connectionDBOf_post.selectPostById(id_post);
+        connectionDBOf_post.changeStatus(post);
         if (checkAccount(request) != null) {
             request.setAttribute("account", checkAccount(request));
         }
@@ -164,7 +163,7 @@ public class UserServlet extends HttpServlet {
 
     private void editGet_Post(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
-        _ListOfPost post = connectionDBOf_post.selectPost(id);
+        _ListOfPost post = connectionDBOf_post.selectPostById(id);
         List<Category> categoryList = connectionDBOf_category.selectAllCategory();
         int id_category = -1;
         for (Category category : categoryList) {
@@ -183,19 +182,14 @@ public class UserServlet extends HttpServlet {
     }
 
     private void displayPostById_Account(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        List<_ListOfPost> postLists = connectionDBOf_post.selectListOfPost();
-        List<_ListOfPost> postListById_Account = new ArrayList<>();
         Account account = null;
         if (checkAccount(request) != null) {
             account = checkAccount(request);
             request.setAttribute("account", account);
         }
-        for (_ListOfPost post : postLists) {
-            if (post.getAuthor().equals(account.getUsername())) {
-                postListById_Account.add(post);
-            }
-        }
-        request.setAttribute("postOfList", postListById_Account);
+        List<_ListOfPost> postLists = connectionDBOf_post.selectListOfPostByIdAccount(account.getId_account());
+
+        request.setAttribute("postOfList", postLists);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/view_post.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -228,7 +222,7 @@ public class UserServlet extends HttpServlet {
 
     private void displayDetailPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        _ListOfPost post = connectionDBOf_post.selectPost(id);
+        _ListOfPost post = connectionDBOf_post.selectPostById(id);
         request.setAttribute("post", post);
         Account account = null;
         if (checkAccount(request) != null) {
